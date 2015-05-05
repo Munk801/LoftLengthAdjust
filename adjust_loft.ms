@@ -27,22 +27,26 @@ windows.sendMessage spinnerEditParentHWND WM_COMMAND ((bit.shift EN_KILLFOCUS 16
 windows.sendMessage spinnerEditHWND WM_KILLFOCUS 0 0
 )
 
-ca=attributes "Loft Adjust"
+ca=attributes camControls
 (
-	parameters main rollout:params
+	parameters params rollout:ro_camControls
 	(
-		sound type:#string
+		splineName type: #string ui:edt_spline
 	)
-	rollout params "Dudu"
+	rollout ro_camControls "Mapping Parameters" width:162 height:77
 	(
-		button btnAdjust "Readjust Length"
-	)
-	
-	on btnAdjust pressed do
-	(
-		messagebox "FUCK"
-	)
-		
-)
+		edittext edt_spline "Path Name"
+		button btn_length "UpdateUVs"
 
+		
+		on btn_length pressed do
+		(
+			splineToUse = getNodeByName splineName
+			splineLength = curveLength splineToUse
+			newLength = splineLength / 85000.0
+			setLengthRepeat $ newLength
+		)
+	)
+)--end attributes
+ 
 custAttributes.add $ ca
